@@ -808,11 +808,11 @@ static int set_xonxoff(t_comport *x, int nr)
 
     if(nr == 1)
     {
-        tio->c_iflag |= (IXON | IXOFF | IXANY);
+        tio->c_iflag =0;//|= (IXON | IXOFF | IXANY);
         return 1;
     }
 
-    tio->c_iflag &= ~IXON & ~IXOFF &  ~IXANY;
+    tio->c_iflag =0;//&= ~IXON & ~IXOFF &  ~IXANY;
     return 0;
 }
 
@@ -827,9 +827,9 @@ static int set_hupcl(t_comport *x, int nr)
         perror ("error in tcgetattr");
         return 0;
     }
-    settings.c_iflag &= ~HUPCL;
+    settings.c_iflag =0;//&= ~HUPCL;
     if(nr)
-    settings.c_iflag |= HUPCL;
+    settings.c_iflag =0;//|= HUPCL;
     result = tcsetattr(x->comhandle, TCSANOW, &settings);
     if (result < 0)
     {
@@ -922,7 +922,7 @@ static int open_serial(unsigned int com_num, t_comport *x)
     new->c_cflag |= (CREAD | CLOCAL);
 
     /* always nocanonical, this means raw i/o no terminal */
-    new->c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
+    new->c_lflag =0;//&= ~(ICANON | ECHO | ECHOE | ISIG);
 
     /* no post processing */
     new->c_oflag &= ~OPOST;
@@ -1967,7 +1967,7 @@ void comport_setup(void)
     null_tv.tv_sec = 0; /* no wait */
     null_tv.tv_usec = 0;
 #endif /* NOT _WIN32 */
-    verbose(-1, "comport - PD external for unix/windows\n"
+    verbose(-1, "comport - CG PD external for unix/windows\n"
         "LGPL 1998-2012,  Winfried Ritsch and others (see LICENSE.txt)\n"
         "Institute for Electronic Music - Graz");
 }
